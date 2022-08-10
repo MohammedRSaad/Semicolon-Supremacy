@@ -10,10 +10,6 @@ class classrooms:
     def __init__(self, name):
         self.name = name
         self.students = pd.DataFrame(columns=["id", "name"])
-        self.last_day = open('last_day.txt', "r+")
-        date = dt.datetime.now()
-        date = (date - dt.timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
-        self.last_day.write(f"{date}")
     
     def add_student(self, Id, name): #object from student class
         student = students(Id, name)
@@ -22,14 +18,14 @@ class classrooms:
     def remove_student(self, student):
         self.students.drop(self.students.index[self.students["id"] == student[0]], inplace = True)
     
-    def take_attendence(self, ids=None):
+    def take_attendence(self, name=None):
         date = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        last = self.last_day.read()
-        if date > last:
+        last = str(self.students.columns.values[-1])
+        
+        if last == "name" or date > last:
             self.students[f"{date}"] = [1] * len(self.students)
-            self.last_day.truncate()
-            self.last_day.write(f"{date}")
-        self.students[f"{date}"][self.] = 0
+        
+        self.students[f"{date}"][self.students['name'] == name] = 0
     
     def get_attendence(self):
         return self.students.iloc[:, 2:].sum(axis=1)
