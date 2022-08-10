@@ -131,7 +131,8 @@ class App(tk.Tk):
         label.grid(column=0, row=1, sticky=tk.W, padx=5, pady=5)
         name_var = tk.StringVar()
         name_var.set("Choose")
-        var = tk.OptionMenu(self.take_attendance, name_var, *school.classes[school.names.index(class_name.get())].students["name"] if school.names else ["No students"])
+        var = tk.OptionMenu(self.take_attendance, name_var, *school.classes[school.names.index(class_name.get())].students["name"]\
+                            if school.classes[school.names.index(class_name.get())].students["name"] else ["No students"])
         var.grid(column=1, row=1, sticky=tk.W, padx=5, pady=5)
 
         submit = tk.Button(self.take_attendance, text='Submit', command=lambda:\
