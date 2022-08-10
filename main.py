@@ -18,7 +18,7 @@ class classrooms:
     def remove_student(self, student):
         self.students.drop(self.students.index[self.students["id"] == student[0]], inplace = True)
     
-    def take_attendence(self, name=None):
+    def take_attendance(self, name=None):
         date = dt.datetime.now().strftime("%Y-%m-%d") #if you want to test add: %H:%M:%S
         last = str(self.students.columns.values[-1])
         
@@ -60,10 +60,14 @@ class App(tk.Tk):
         new_student = tk.Button(self.main, text='Add Student', command=lambda:\
                       [self.add_student_win(school), self.main.pack_forget()])
         new_student.grid(column=0, row=1, sticky=tk.E, padx=5, pady=5)
-        
+
         show = tk.Button(self.main, text='show Classrooms', command=lambda:\
                       [school.show_classrooms()])
         show.grid(column=0, row=2, sticky=tk.E, padx=5, pady=5)
+
+        take_attendance = tk.Button(self.main, text='Take Attendance', command=lambda:\
+                      [self.take_attendance_win(school), self.main.pack_forget()])
+        take_attendance.grid(column=0, row=3, sticky=tk.E, padx=5, pady=5)
     
     def new_classroom_win(self, school):
         self.new_classroom = tk.Frame(self)
@@ -74,7 +78,7 @@ class App(tk.Tk):
         name = tk.Entry(self.new_classroom)
         name.grid(column=1, row=0, sticky=tk.E, padx=5, pady=5)
         
-        submit = tk.Button(self.new_classroom, text='submit', command=lambda:\
+        submit = tk.Button(self.new_classroom, text='Submit', command=lambda:\
                       [school.add_classroom(name.get())])
         submit.grid(column=2, row=3, sticky=tk.E, padx=5, pady=5)
         
@@ -89,7 +93,7 @@ class App(tk.Tk):
         label = tk.Label(self.new_student, text="Class Name: ")
         label.grid(column=0, row=0, sticky=tk.W, padx=5, pady=5)
         name_var = tk.StringVar()
-        name_var.set("choose")
+        name_var.set("Choose")
         name = tk.OptionMenu(self.new_student, name_var, *school.names if school.names else ["No classes"])
         name.grid(column=1, row=0, sticky=tk.W, padx=5, pady=5)
         
@@ -104,13 +108,42 @@ class App(tk.Tk):
         name = tk.Entry(self.new_student)
         name.grid(column=1, row=3, sticky=tk.E, padx=5, pady=5)
         
-        submit = tk.Button(self.new_student, text='submit', command=lambda:\
+        submit = tk.Button(self.new_student, text='Submit', command=lambda:\
                       [school.classes[school.names.index(name_var.get())].add_student(Id.get(), name.get())])
-        submit.grid(column=1, row=4, sticky=tk.E, padx=5, pady=5)
+        submit.grid(column=2, row=5, sticky=tk.E, padx=5, pady=5)
         
         main_menu_button = tk.Button(self.new_student, text='Main Menu', command=lambda:\
                       [self.main_win(school), self.new_student.pack_forget()])
-        main_menu_button.grid(column=1, row=3, sticky=tk.E, padx=5, pady=5)
+        main_menu_button.grid(column=1, row=5, sticky=tk.E, padx=5, pady=5)
+
+    def take_attendance_win(self, school):
+        self.take_attendance = tk.Frame(self)
+        self.take_attendance.pack(fill="both", expand = True)
+
+        label = tk.Label(self.take_attendance, text="Class Name: ")
+        label.grid(column=0, row=0, sticky=tk.W, padx=5, pady=5)
+        class_name = tk.StringVar()
+        class_name.set("Choose")
+        name_class = tk.OptionMenu(self.take_attendance, class_name, *school.names if school.names else ["No classes"])
+        name_class.grid(column=1, row=0, sticky=tk.W, padx=5, pady=5)
+
+        label = tk.Label(self.take_attendance, text="Student Name: ")
+        label.grid(column=0, row=1, sticky=tk.W, padx=5, pady=5)
+        name_var = tk.StringVar()
+        name_var.set("Choose")
+        var = tk.OptionMenu(self.take_attendance, name_var, *school.classes[school.names.index(class_name.get())].students["name"] if school.names else ["No students"])
+        var.grid(column=1, row=1, sticky=tk.W, padx=5, pady=5)
+
+        submit = tk.Button(self.take_attendance, text='Submit', command=lambda:\
+                      [school.classes[school.names.index(name_var.get())].take_attendance(name_var.get())])
+        submit.grid(column=3, row=5, sticky=tk.E, padx=5, pady=5)
+        
+        main_menu_button = tk.Button(self.take_attendance, text='Main Menu', command=lambda:\
+                      [self.main_win(school), self.take_attendance.pack_forget()])
+        main_menu_button.grid(column=2, row=5, sticky=tk.E, padx=5, pady=5)
+        
+        
+        
     
 
 if __name__ == "__main__":
