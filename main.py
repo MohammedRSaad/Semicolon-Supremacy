@@ -19,7 +19,7 @@ class classrooms:
         self.students.drop(self.students.index[self.students["id"] == student[0]], inplace = True)
     
     def take_attendence(self, name=None):
-        date = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        date = dt.datetime.now().strftime("%Y-%m-%d") #if you want to test add: %H:%M:%S
         last = str(self.students.columns.values[-1])
         
         if last == "name" or date > last:
@@ -104,10 +104,13 @@ class App(tk.Tk):
         name = tk.Entry(self.new_student)
         name.grid(column=1, row=3, sticky=tk.E, padx=5, pady=5)
         
-        b = tk.Button(self.new_student, text='submit', command=lambda:\
-                      [school.classes[school.names.index(name_var.get())].add_student(Id.get(), name.get()),\
-                          self.main_win(school), self.new_student.pack_forget()])
-        b.grid(column=1, row=4, sticky=tk.E, padx=5, pady=5)
+        submit = tk.Button(self.new_student, text='submit', command=lambda:\
+                      [school.classes[school.names.index(name_var.get())].add_student(Id.get(), name.get())])
+        submit.grid(column=1, row=4, sticky=tk.E, padx=5, pady=5)
+        
+        main_menu_button = tk.Button(self.new_student, text='Main Menu', command=lambda:\
+                      [self.main_win(school), self.new_student.pack_forget()])
+        main_menu_button.grid(column=1, row=3, sticky=tk.E, padx=5, pady=5)
     
 
 if __name__ == "__main__":
