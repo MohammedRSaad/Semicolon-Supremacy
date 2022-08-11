@@ -10,7 +10,8 @@ class classrooms:
         self.students = pd.DataFrame(columns=["id", "name"])
     
     def add_student(self, info):
-        info += [0]*(self.students.shape[1]-len(info))
+        if self.students.shape[1] > len(info):
+            info += [0]*(self.students.shape[1]-len(info))
         self.students.loc[len(self.students)] = info
         self.students.to_csv(f"data\{self.name}.csv", index=False)
    
