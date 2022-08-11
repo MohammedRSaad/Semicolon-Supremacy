@@ -72,35 +72,37 @@ class schools:
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Attendence Management")
-        self.geometry("")
+        self.title("Attendance Management")
+        self.geometry("450x230")
+        if(os.path.isfile("./attendance.ico") and os.access("./attendance.ico", os.R_OK)):
+            self.iconbitmap("attendance.ico")
         
     def main_win(self, school):
         self.main = ttk.Frame(self)
         self.main.pack(fill="both", expand = True)
         
-        new_classroom = ttk.Button(self.main, text='New Classroom', width=15, command=lambda:\
+        new_classroom = ttk.Button(self.main, text='New Classroom', width=17, command=lambda:\
                       [self.new_classroom_win(school), self.main.pack_forget()])
         new_classroom.grid(column=0, row=0, sticky=tk.E, padx=5, pady=5)
         
-        new_student = ttk.Button(self.main, text='Add Student', width=15, command=lambda:\
+        new_student = ttk.Button(self.main, text='Add Student', width=17, command=lambda:\
                       [self.add_student_win(school), self.main.pack_forget()])
         new_student.grid(column=0, row=1, sticky=tk.E, padx=5, pady=5)
         
-        delete_student = ttk.Button(self.main, text='Remove Student', width=15, command=lambda:\
+        delete_student = ttk.Button(self.main, text='Remove Student', width=17, command=lambda:\
                       [self.remove_student_win(school), self.main.pack_forget()])
         delete_student.grid(column=0, row=2, sticky=tk.E, padx=5, pady=5)
         
-        transefer_frame = ttk.Button(self.main, text='Transfer Student', width=15, command=lambda:\
+        transefer_frame = ttk.Button(self.main, text='Transfer Student', width=17, command=lambda:\
                       [self.transfer_win(school), self.main.pack_forget()])
         transefer_frame.grid(column=0, row=3, sticky=tk.E, padx=5, pady=5)
         
         
-        take_attendance = ttk.Button(self.main, text='Take Attendance', width=15, command=lambda:\
+        take_attendance = ttk.Button(self.main, text='Take Attendance', width=17, command=lambda:\
                       [self.take_attendance_win(school), self.main.pack_forget()])
         take_attendance.grid(column=0, row=4, sticky=tk.E, padx=5, pady=5)
         
-        show = ttk.Button(self.main, text='show Classrooms', width=15, command=lambda:\
+        show = ttk.Button(self.main, text='Show Classrooms', width=17, command=lambda:\
                       [self.show_class_win(school), self.main.pack_forget()])
         show.grid(column=0, row=5, sticky=tk.E, padx=5, pady=5)
         
@@ -113,8 +115,8 @@ class App(tk.Tk):
         name = ttk.Entry(self.new_classroom)
         name.grid(column=1, row=0, sticky=tk.E, padx=5, pady=5)
         
-        submit = ttk.Button(self.new_classroom, text='submit', command=lambda:\
-                      [school.add_classroom(name.get()), submit_label.config(text="Submitted!!!")])
+        submit = ttk.Button(self.new_classroom, text='Submit', command=lambda:\
+                      [school.add_classroom(name.get()), submit_label.config(text="Submitted!")])
         submit.grid(column=2, row=3, sticky=tk.E, padx=5, pady=5)
         
         main_menu_button = ttk.Button(self.new_classroom, text='Main Menu', command=lambda:\
@@ -143,7 +145,7 @@ class App(tk.Tk):
         name = ttk.Entry(self.new_student)
         name.grid(column=1, row=3, sticky=tk.E, padx=5, pady=5)
         
-        submit = ttk.Button(self.new_student, text='submit', command=lambda:\
+        submit = ttk.Button(self.new_student, text='Submit', command=lambda:\
                       [school.classes[school.names.index(name_list.get())].add_student(Id.get(), name.get())])
         submit.grid(column=2, row=4, sticky=tk.E, padx=5, pady=5)
         
@@ -171,7 +173,7 @@ class App(tk.Tk):
 
         submit = ttk.Button(self.remove_student_frame, text='Submit', command=lambda:\
                       [school.classes[school.names.index(class_list.get())].remove_student(var.get()),\
-                       submit_label.config(text="Submitted!!!")])
+                       submit_label.config(text="Submitted!")])
         submit.grid(column=3, row=2, sticky=tk.E, padx=5, pady=5)
         
         main_menu_button = ttk.Button(self.remove_student_frame, text='Main Menu', command=lambda:\
@@ -204,10 +206,10 @@ class App(tk.Tk):
         to_class = ttk.Combobox(self.transfer_frame, value=school.names)
         to_class.grid(column=1, row=2, sticky=tk.W, padx=5, pady=5)
         
-        submit = ttk.Button(self.transfer_frame, text='submit', command=lambda:\
+        submit = ttk.Button(self.transfer_frame, text='Submit', command=lambda:\
                       [school.transfer_student(student_name.get(), school.classes[school.names.index(to_class.get())],\
                                                school.classes[school.names.index(from_class.get())]),\
-                       submit_label.config(text="Submitted!!!")])
+                       submit_label.config(text="Submitted!")])
         submit.grid(column=2, row=3, sticky=tk.E, padx=5, pady=5)
         
         main_menu_button = ttk.Button(self.transfer_frame, text='Main Menu', command=lambda:\
@@ -237,7 +239,7 @@ class App(tk.Tk):
 
         submit = ttk.Button(self.take_attendance, text='Submit', command=lambda:\
                       [school.classes[school.names.index(class_list.get())].take_attendance(var.get()),\
-                       submit_label.config(text="Submitted!!!")])
+                       submit_label.config(text="Submitted!")])
         submit.grid(column=3, row=2, sticky=tk.E, padx=5, pady=5)
         
         main_menu_button = ttk.Button(self.take_attendance, text='Main Menu', command=lambda:\
